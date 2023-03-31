@@ -1,7 +1,10 @@
 class playingField:
     def __init__(self, n=10):
-        self.n = n
-        self.field = [[0] * n for i in range(n)]
+        self.n = n + 1
+        self.field = [["0"] * self.n for i in range(self.n)]
+        self.field[0] = [chr(i) for i in range(64, 65 + self.n)]
+        for i in range(self.n):
+            self.field[i][0] = i
 
     def __str__(self):
         result_str = ""
