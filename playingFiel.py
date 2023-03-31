@@ -5,6 +5,7 @@ class playingField:
         self.field[0] = [chr(i) for i in range(64, 65 + self.n)]
         for i in range(self.n):
             self.field[i][0] = i
+        self.field[0][0] = ' '
 
     def __str__(self):
         result_str = ""
