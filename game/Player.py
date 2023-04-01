@@ -22,28 +22,30 @@ class Player:
         deck_check(x + 1, y - 1)
         deck_check(x - 1, y + 1)
         deck_check(x - 1, y - 1)
+
         return ships_around
 
     def __removing_dead_ship(self, ship):
-        def removing_desk(_x, _y):
-            if 11 > _x > 0 and 11 > _y > 0:
+        def removing_deck(_x, _y):
+            if 11 > _x > 0 and 11 > _y > 0 and [_x, _y] not in ship:
                 self.fitld_attack.set_cell(_x, _y, 2)
 
         for deck in ship:
             x = deck[0]
             y = deck[1]
-            removing_desk(x + 1, y)
-            removing_desk(x - 1, y)
-            removing_desk(x, y + 1)
-            removing_desk(x, y - 1)
-            removing_desk(x + 1, y + 1)
-            removing_desk(x + 1, y - 1)
-            removing_desk(x - 1, y + 1)
-            removing_desk(x - 1, y - 1)
+            removing_deck(x + 1, y)
+            removing_deck(x - 1, y)
+            removing_deck(x, y + 1)
+            removing_deck(x, y - 1)
+            removing_deck(x + 1, y + 1)
+            removing_deck(x + 1, y - 1)
+            removing_deck(x - 1, y + 1)
+            removing_deck(x - 1, y - 1)
 
     def __ship_search(self, x, y):
         ship = [[x, y]]
         unseen = self.__search_around(x, y)
+
         while unseen:
             current = unseen.pop()
             ship.append(current)
@@ -51,6 +53,7 @@ class Player:
             for i in neighbors:
                 if i not in ship:
                     unseen.append(i)
+
         return ship
 
     def __checking_ship_killed(self, x, y):
@@ -61,6 +64,7 @@ class Player:
                 if self.fitld_attack.get_cell(deck[0], deck[1]) != 1:
                     self.fitld_attack.set_cell(x, y, 1)
                     return
+
         self.__removing_dead_ship(ship)
 
     def do_step(self, x, y):
