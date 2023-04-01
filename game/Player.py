@@ -1,11 +1,13 @@
-from playingFiel import playingField
+from Field.placementOfShips import placementOfShips
+from Field.playingFiel import playingField
 
 
 class Player:
     def __init__(self):
-        self.fitld_attack = playingField()
+        self.field_attack = playingField()
         self.field_pattern = playingField()
         self.count_cell = 20
+        self.placementOfShips = placementOfShips(self.field_pattern)
 
     def __search_around(self, x, y):
         ships_around = []
@@ -28,7 +30,7 @@ class Player:
     def __removing_dead_ship(self, ship):
         def removing_deck(_x, _y):
             if 11 > _x > 0 and 11 > _y > 0 and [_x, _y] not in ship:
-                self.fitld_attack.set_cell(_x, _y, 2)
+                self.field_attack.set_cell(_x, _y, 2)
 
         for deck in ship:
             x = deck[0]
@@ -61,21 +63,27 @@ class Player:
 
         if len(ship) != 1:
             for deck in ship:
-                if self.fitld_attack.get_cell(deck[0], deck[1]) != 1:
-                    self.fitld_attack.set_cell(x, y, 1)
+                if self.field_attack.get_cell(deck[0], deck[1]) != 1:
+                    self.field_attack.set_cell(x, y, 1)
                     return
 
         self.__removing_dead_ship(ship)
 
     def do_step(self, x, y):
-        if self.fitld_attack.get_cell(x, y) == 0:
+        if self.field_attack.get_cell(x, y) == 0:
             if self.field_pattern.get_cell(x, y) == 3:
                 self.count_cell -= 1
                 self.__checking_ship_killed(x, y)
                 return 1
 
-            self.fitld_attack.set_cell(x, y, 2)
+            self.field_attack.set_cell(x, y, 2)
             return -1
 
         else:
             return 'ошибка ввода'  # думаю, что потом эта проверка не понадобится (мы просто оставим кликабельными только доступные клетки
+
+    def end_of_placement(self):
+        return self.placementOfShips.end_of_placement()
+
+    def put_ship(self, i, j):
+        self.placementOfShips.put_ship(i, j)

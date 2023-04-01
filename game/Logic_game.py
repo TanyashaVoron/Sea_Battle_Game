@@ -1,5 +1,4 @@
 from Player import Player
-from playingFiel import playingField
 from Input_Otput import Input_Otput
 from Parse import Parse
 
@@ -23,7 +22,12 @@ class Game:
                 self.state = 'seating'
 
             if self.state == 'seating':
-                # даписать Ульяна
+                while not self.player1.end_of_placement():
+                    self.player1.put_ship(input[0], input[1])
+
+                while not self.player2.end_of_placement():
+                    self.player2.put_ship(input[0], input[1])
+
                 self.state = 'game'
 
             if self.state == 'game':

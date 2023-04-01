@@ -1,6 +1,3 @@
-from playingFiel import playingField
-
-
 class placementOfShips:
     """
     cur_state:
