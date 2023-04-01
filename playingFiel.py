@@ -5,7 +5,7 @@ class playingField:
         self.field[0] = [chr(i) for i in range(64, 65 + self.n)]
         for i in range(self.n):
             self.field[i][0] = i
-        self.field[0][0] = ' '
+        self.field[0][0] = " "
 
     def __str__(self):
         result_str = ""
@@ -21,10 +21,6 @@ class playingField:
 
     def set_cell(self, i, j, val):
         self.field[i][j] = val
-
-    # def is_free(self, i, j):
-    #     return self.field[i][j] == state_cell.free
-    # state_cell(1).name == 'free'
 
 
 if __name__ == '__main__':
