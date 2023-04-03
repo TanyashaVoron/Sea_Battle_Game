@@ -1,6 +1,7 @@
-from Player import Player
+
 from Input_Otput import Input_Otput
 from Parse import Parse
+from game.Player import Player
 
 
 class Game:
@@ -15,8 +16,10 @@ class Game:
     def run(self):
         while self.state != 'finish':
             input = self.input_output.input_str()
-            while self.parse.parse(input) == [0, 0]:
+            print(input)
+            if self.parse.parse(input) == [0, 0]:
                 self.input_output.output_exe()
+                break
 
             if self.state == 'start':
                 self.state = 'seating'
