@@ -87,3 +87,6 @@ class Player:
 
     def put_ship(self, i, j):
         self.placementOfShips.put_ship(i, j)
+
+    def show_field_pattern(self):
+        return self.field_pattern

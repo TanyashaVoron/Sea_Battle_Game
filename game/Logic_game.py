@@ -24,6 +24,8 @@ class Game:
             if self.state == 'seating':
                 while not self.player1.end_of_placement():
                     self.player1.put_ship(input[0], input[1])
+                    # вывод текущего заполнения
+                    print(self.player1.show_field_pattern())
 
                 while not self.player2.end_of_placement():
                     self.player2.put_ship(input[0], input[1])
@@ -42,3 +44,8 @@ class Game:
                         self.player1.do_step(input[0], input[1])
                     else:
                         self.player2.do_step(input[0], input[1])
+
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
