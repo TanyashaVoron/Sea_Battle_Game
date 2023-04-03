@@ -1,4 +1,3 @@
-
 from Input_Otput import Input_Otput
 from Parse import Parse
 from game.Player import Player
@@ -15,23 +14,23 @@ class Game:
 
     def run(self):
         while self.state != 'finish':
-            input = self.input_output.input_str()
-            print(input)
-            if self.parse.parse(input) == [0, 0]:
+            x, y = self.parse.parse(self.input_output.input_str())
+
+            if x == 0 and y == 0:
                 self.input_output.output_exe()
-                break
+                return
 
             if self.state == 'start':
                 self.state = 'seating'
 
             if self.state == 'seating':
                 while not self.player1.end_of_placement():
-                    self.player1.put_ship(input[0], input[1])
+                    self.player1.put_ship(x, y)
                     # вывод текущего заполнения
                     print(self.player1.show_field_pattern())
 
                 while not self.player2.end_of_placement():
-                    self.player2.put_ship(input[0], input[1])
+                    self.player2.put_ship(x, y)
 
                 self.state = 'game'
 
@@ -44,9 +43,9 @@ class Game:
                     self.state = 'finish'
                 else:
                     if self.whose_move_bool:
-                        self.player1.do_step(input[0], input[1])
+                        self.player1.do_step(x, y)
                     else:
-                        self.player2.do_step(input[0], input[1])
+                        self.player2.do_step(x, y)
 
 
 if __name__ == '__main__':
