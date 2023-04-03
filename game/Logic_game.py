@@ -24,15 +24,19 @@ class Game:
                 self.state = 'seating'
 
             if self.state == 'seating':
-                while not self.player1.end_of_placement():
+                if not self.player1.end_of_placement():
                     self.player1.put_ship(x, y)
-                    # вывод текущего заполнения
                     print(self.player1.show_field_pattern())
 
-                while not self.player2.end_of_placement():
+                elif not self.player2.end_of_placement():
                     self.player2.put_ship(x, y)
+                    print(self.player2.show_field_pattern())
 
-                self.state = 'game'
+                else:
+                    self.state = 'game'
+
+                # вывод текущего заполнения
+                # print(self.player1.show_field_pattern())
 
             if self.state == 'game':
                 if self.player1.count_cell == 0:

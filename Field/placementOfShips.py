@@ -25,7 +25,8 @@ class placementOfShips:
         self.field.set_cell(i, j, val)
 
     def end_of_placement(self):
-        return self.cur_ship_index < len(self.array_of_ships)
+        if self.cur_ship_index > len(self.array_of_ships):
+            self.end_of_placement = True
 
     def put_ship(self, i, j):
 
