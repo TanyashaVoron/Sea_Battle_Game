@@ -1,6 +1,3 @@
-from Field.playingFiel import playingField
-
-
 class placementOfShips:
     """
     cur_state:
@@ -16,7 +13,6 @@ class placementOfShips:
         self.cur_ship_index = 0
         self.array_of_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
         self.last_cell = [0, 0]
-        self.end_of_placement = False
 
     def get_cell(self, i, j):
         return self.field.get_cell(i, j)
@@ -25,7 +21,7 @@ class placementOfShips:
         self.field.set_cell(i, j, val)
 
     def end_of_placement(self):
-        return self.cur_ship_index < len(self.array_of_ships)
+        return self.cur_ship_index > len(self.array_of_ships)
 
     def put_ship(self, i, j):
 

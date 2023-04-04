@@ -83,7 +83,9 @@ class Player:
             return 'ошибка ввода'  # думаю, что потом эта проверка не понадобится (мы просто оставим кликабельными только доступные клетки
 
     def end_of_placement(self):
-        return self.placementOfShips.end_of_placement()
+        if self.placementOfShips.end_of_placement():
+            return True
+        return False
 
     def put_ship(self, i, j):
         self.placementOfShips.put_ship(i, j)

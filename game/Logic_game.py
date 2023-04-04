@@ -25,15 +25,17 @@ class Game:
                 self.state = 'seating'
 
             if self.state == 'seating':
-                while not self.player1.end_of_placement():
+                if not self.player1.end_of_placement():
                     self.player1.put_ship(input[0], input[1])
                     # вывод текущего заполнения
                     print(self.player1.show_field_pattern())
 
-                while not self.player2.end_of_placement():
+                elif not self.player2.end_of_placement():
                     self.player2.put_ship(input[0], input[1])
 
-                self.state = 'game'
+                    print(self.player1.show_field_pattern())
+                else:
+                    self.state = 'game'
 
             if self.state == 'game':
                 if self.player1.count_cell == 0:
