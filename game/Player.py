@@ -9,6 +9,7 @@ class Player:
         self.count_cell = 20
         self.placementOfShips = placementOfShips(self.field_pattern)
 
+    # поиск палуб кораблей вокруг
     def __search_around(self, x, y):
         ships_around = []
 
@@ -27,10 +28,11 @@ class Player:
 
         return ships_around
 
+    # удаление из игры полей вокруг коробля
     def __removing_dead_ship(self, ship):
         def removing_deck(_x, _y):
             if 11 > _x > 0 and 11 > _y > 0 and [_x, _y] not in ship:
-                self.field_attack.set_cell(_x, _y, 2)
+                self.field_attack.set_cell(_x, _y, '2')
 
         for deck in ship:
             x = deck[0]
@@ -44,6 +46,7 @@ class Player:
             removing_deck(x - 1, y + 1)
             removing_deck(x - 1, y - 1)
 
+    # поиск целого корабля по одной палубе
     def __ship_search(self, x, y):
         ship = [[x, y]]
         unseen = self.__search_around(x, y)
@@ -58,26 +61,28 @@ class Player:
 
         return ship
 
+    # проверка на то, что корабль выбит целиком
     def __checking_ship_killed(self, x, y):
         ship = self.__ship_search(x, y)
 
         if len(ship) != 1:
             for deck in ship:
                 if self.field_attack.get_cell(deck[0], deck[1]) != '1':
-                    self.field_attack.set_cell(x, y, 1)
+                    self.field_attack.set_cell(x, y, '1')
                     return
 
         self.__removing_dead_ship(ship)
 
+    # основной метод: сделать ход
     def do_step(self, x, y):
         if self.field_attack.get_cell(x, y) == '0':
             if self.field_pattern.get_cell(x, y) == '3':
-                self.field_attack.set_cell(x, y, 1)
+                self.field_attack.set_cell(x, y, '1')
                 self.count_cell -= 1
                 self.__checking_ship_killed(x, y)
                 return 1
 
-            self.field_attack.set_cell(x, y, 2)
+            self.field_attack.set_cell(x, y, '2')
             return -1
 
         else:

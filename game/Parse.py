@@ -1,9 +1,9 @@
 class Parse:
     def __init__(self):
-        self.arr_x = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-        self.arr_y = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+        self.arr_y = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                      'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-    def parse(self, s):
+    def parse(self, s, n):
         x = y = 0
 
         if len(s) == 2:
@@ -14,7 +14,7 @@ class Parse:
             x = s[0:2]
             y = s[2]
 
-        if x in self.arr_x and y in self.arr_y:
-            return self.arr_x.index(x) + 1, self.arr_y.index(y) + 1
+        if 0 < int(x) <= n and y in self.arr_y and self.arr_y.index(y) + 1 <= n:
+            return int(x), self.arr_y.index(y) + 1
 
         return 0, 0
