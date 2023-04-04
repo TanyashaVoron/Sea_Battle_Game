@@ -13,7 +13,7 @@ class Player:
         ships_around = []
 
         def deck_check(_x, _y):
-            if 11 > _x > 0 and 11 > _y > 0 and self.field_pattern.get_cell(_x, _y) == 3:
+            if 11 > _x > 0 and 11 > _y > 0 and self.field_pattern.get_cell(_x, _y) == '3':
                 ships_around.append([_x + 1, _y])
 
         deck_check(x + 1, y)
@@ -63,15 +63,16 @@ class Player:
 
         if len(ship) != 1:
             for deck in ship:
-                if self.field_attack.get_cell(deck[0], deck[1]) != 1:
+                if self.field_attack.get_cell(deck[0], deck[1]) != '1':
                     self.field_attack.set_cell(x, y, 1)
                     return
 
         self.__removing_dead_ship(ship)
 
     def do_step(self, x, y):
-        if self.field_attack.get_cell(x, y) == 0:
-            if self.field_pattern.get_cell(x, y) == 3:
+        if self.field_attack.get_cell(x, y) == '0':
+            if self.field_pattern.get_cell(x, y) == '3':
+                self.field_attack.set_cell(x, y, 1)
                 self.count_cell -= 1
                 self.__checking_ship_killed(x, y)
                 return 1
@@ -92,3 +93,6 @@ class Player:
 
     def show_field_pattern(self):
         return self.field_pattern
+
+    def show_field_attack(self):
+        return self.field_attack

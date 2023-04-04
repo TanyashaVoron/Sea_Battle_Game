@@ -8,7 +8,7 @@ class Game:
         self.player1 = Player()
         self.player2 = Player()
         self.state = 'start'
-        self.whose_move_bool = False
+        self.whose_move_bool = 1
         self.input_output = Input_Otput()
         self.parse = Parse()
 
@@ -51,15 +51,15 @@ class Game:
                     self.input_output.output_win(2)
                     self.state = 'finish'
                 else:
-                    if self.whose_move_bool:
-                        self.player1.do_step(x, y)
+                    if self.whose_move_bool == 1:
+                        self.whose_move_bool *= self.player1.do_step(x, y)
                         print("player1")
-                        print(self.player1.show_field_pattern())
+                        print(self.player1.show_field_attack())
 
                     else:
-                        self.player2.do_step(x, y)
+                        self.whose_move_bool *= self.player2.do_step(x, y)
                         print("player2")
-                        print(self.player2.show_field_pattern())
+                        print(self.player2.show_field_attack())
 
 
 if __name__ == '__main__':

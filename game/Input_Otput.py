@@ -29,7 +29,11 @@ class Input_Otput:
                             "9H", "10H",
                             "3D", "8A",
                             "5E", "10D",
-                            "5C", "6G"
+
+                            "5C", "6G",
+                            "3D",
+                            "3A",
+                            "6A"
                             ]
 
         return array_of_inputs1[i]
