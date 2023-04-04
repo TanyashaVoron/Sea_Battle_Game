@@ -13,8 +13,11 @@ class Game:
         self.parse = Parse()
 
     def run(self):
+        i = 0
         while self.state != 'finish':
-            x, y = self.parse.parse(self.input_output.input_str())
+            # x, y = self.parse.parse(self.input_output.input_str())
+            x, y = self.parse.parse(self.input_output.input_from_array(i))
+            i += 1
 
             if x == 0 and y == 0:
                 self.input_output.output_exe()
@@ -26,14 +29,16 @@ class Game:
             if self.state == 'seating':
                 if not self.player1.end_of_placement():
                     self.player1.put_ship(x, y)
-                    print(self.player1.show_field_pattern())
 
                 elif not self.player2.end_of_placement():
                     self.player2.put_ship(x, y)
-                    print(self.player2.show_field_pattern())
 
                 else:
                     self.state = 'game'
+                    print("after placement:")
+                    print(self.player1.show_field_pattern())
+                    print(self.player1.show_field_pattern())
+
 
                 # вывод текущего заполнения
                 # print(self.player1.show_field_pattern())
@@ -48,8 +53,13 @@ class Game:
                 else:
                     if self.whose_move_bool:
                         self.player1.do_step(x, y)
+                        print("player1")
+                        print(self.player1.show_field_pattern())
+
                     else:
                         self.player2.do_step(x, y)
+                        print("player2")
+                        print(self.player2.show_field_pattern())
 
 
 if __name__ == '__main__':

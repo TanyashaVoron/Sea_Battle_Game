@@ -8,6 +8,7 @@ class placementOfShips:
     """
 
     def __init__(self, field):
+        # self.end_of_placement = True
         self.field = field
         self.cur_state = 0
         self.cur_ship_index = 0
@@ -21,8 +22,9 @@ class placementOfShips:
         self.field.set_cell(i, j, val)
 
     def end_of_placement(self):
-        if self.cur_ship_index > len(self.array_of_ships):
-            self.end_of_placement = True
+        if self.cur_ship_index == len(self.array_of_ships):
+            return True
+        return False
 
     def put_ship(self, i, j):
 
