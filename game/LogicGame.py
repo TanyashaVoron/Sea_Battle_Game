@@ -1,21 +1,23 @@
 from InputOtput import Input_Otput
 from Parse import Parse
-from Player import Player
-from BotPlayer import Bot
+from Player.Player import Player
+from Player.BotPlayer import Bot
 
 
 class Game:
-    def __init__(self):
-        self.player1 = Player()
-        self.player2 = Player()
+    def __init__(self, field_size):
+        self.field_size = field_size
+        self.player1 = Player(self.field_size)
+        self.player2 = Player(self.field_size)
         self.state = 'start'
         self.whose_move_bool = 1
         self.input_output = Input_Otput()
         self.parse = Parse()
         self.bot = Bot()
 
-    def run(self, num_of_players, size_field):
-        #i = 0
+    def run(self, num_of_players, field_size):
+        # i = 0
+
         while self.state != 'finish':
             if self.state == 'start':
                 self.state = 'seating'
@@ -23,12 +25,12 @@ class Game:
                 print(self.player1.show_field_pattern().field_in_string())
 
             if num_of_players == 1 and self.whose_move_bool == 1:
-                x, y = self.parse.parse(self.bot.bot_generation_move(10), size_field)
+                x, y = self.parse.parse(self.bot.bot_generation_move(self.field_size), field_size)
             else:
-                x, y = self.parse.parse(self.input_output.input_str(), size_field)
-                #x, y = self.parse.parse(self.input_output.input_from_array(i),size_field)
-                #i += 1
-            #print(x, y)
+                x, y = self.parse.parse(self.input_output.input_str(), field_size)
+                # x, y = self.parse.parse(self.input_output.input_from_array(i),size_field)
+                # i += 1
+            # print(x, y)
             if x == 0 and y == 0:
                 if num_of_players == 2:
                     self.input_output.output_exe()
@@ -52,8 +54,8 @@ class Game:
                 else:
                     self.state = 'game'
                     self.input_output.output_finish_seating()
-                    #print(self.player1.show_field_pattern().field_in_string())
-                    #print(self.player1.show_field_pattern().field_in_string())
+                    # print(self.player1.show_field_pattern().field_in_string())
+                    # print(self.player1.show_field_pattern().field_in_string())
 
                     help_field = self.player1.field_pattern
                     self.player1.field_pattern = self.player2.field_pattern
@@ -61,7 +63,7 @@ class Game:
                     self.whose_move_bool = 1
 
                 # вывод текущего заполнения
-                #print(self.player1.show_field_pattern())
+                # print(self.player1.show_field_pattern())
 
             if self.state == 'game':
                 if self.player1.count_cell == 0:
@@ -84,14 +86,18 @@ class Game:
 
 
 def main():
-    game = Game()
+    field_size = 20
+    game = Game(field_size)
     start = input('привет! давай играть! \n пиши\n 1 - игра с ботом \n 2 - игра с другом\n')
+
+    # TODO: надо придумать, как правильно задавать размеры поля,
+    #  типы игры(с другом\с ботом) и типы кораблей(угловые или нет)
 
     while start != '1' or start != '2':
         if start == '1':
-            game.run(1, 10)
+            game.run(1, field_size)
         elif start == '2':
-            game.run(2, 10)
+            game.run(2, field_size)
         else:
             print('ой, ничего не понимаю, давай опробуем снова)')
             start = input('пиши\n 1 - игра с ботом \n 2 - игра с другом\n')

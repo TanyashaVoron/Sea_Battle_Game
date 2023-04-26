@@ -1,5 +1,5 @@
 class playingField:
-    def __init__(self, n=10):
+    def __init__(self, n):
         self.n = n + 1
         self.field = [['0'] * self.n for _ in range(self.n)]
         self.field[0] = [chr(i) for i in range(64, 65 + self.n)]
@@ -8,15 +8,14 @@ class playingField:
         self.field[0][0] = ' '
 
     def field_in_string(self):
-        map_transform_desk = {'0': '◼️', '1': '🚢', '2': '🗯', '3': '🚢', '?': '❔', '!':'❗️'}
+        map_transform_desk = {'0': '◼️', '1': '🚢', '2': '🗯', '3': '🚢', '?': '❔', '!':'❗️', '+':'+'}
         result_str = ' '
         for i in range(self.n):
             temp_str = ''
             for j in range(self.n):
                 if j != 0 and i != 0:
                     temp_str += str(map_transform_desk.get(self.field[i][j])) + ' '
-                    # temp_str += str(self.field[i][j]) + "  "
-                elif i == 10:
+                elif i == self.n:
                     temp_str += str(self.field[i][j])+' '
                 else:
                     temp_str += str(self.field[i][j]) + '  '

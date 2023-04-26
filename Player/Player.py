@@ -1,13 +1,24 @@
-from Field.placementOfShips import placementOfShips
-from Field.playingFiel import playingField
+from Field.PlacementOfAngularShips import placementOfAngularShips
+from Field.PlacementOfStraightShips import placementOfStraightShips
+from Field.PlayingField import playingField
 
 
 class Player:
-    def __init__(self):
-        self.field_attack = playingField()
-        self.field_pattern = playingField()
-        self.count_cell = 20
-        self.placementOfShips = placementOfShips(self.field_pattern)
+    def __init__(self, field_size):
+        self.field_size = field_size
+        self.field_attack = playingField(field_size)
+        self.field_pattern = playingField(field_size)
+        self.count_cell = None
+        self.calculate_count_cell()
+        self.placementOfShips = placementOfAngularShips(self.field_pattern, self.field_size)
+
+    def calculate_count_cell(self):
+        if self.field_size == 10:
+            self.count_cell = 20
+        elif self.field_size == 15:
+            self.count_cell = 35
+        elif self.field_size == 20:
+            self.count_cell = 56
 
     # поиск палуб кораблей вокруг
     def __search_around(self, x, y):
@@ -86,7 +97,8 @@ class Player:
             return -1
 
         else:
-            return 'ошибка ввода'  # думаю, что потом эта проверка не понадобится (мы просто оставим кликабельными только доступные клетки
+            return 'ошибка ввода'  # думаю, что потом эта проверка не понадобится (мы просто оставим кликабельными
+            # только доступные клетки
 
     def end_of_placement(self):
         if self.placementOfShips.end_of_placement():

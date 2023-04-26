@@ -1,4 +1,4 @@
-class placementOfShips:
+class placementOfStraightShips:
     """
     cur_state:
     0 - wait next ship
@@ -7,13 +7,23 @@ class placementOfShips:
     ships: 1, 2, 3, 4 - decks
     """
 
-    def __init__(self, field):
-        # self.end_of_placement = True
+    def __init__(self, field, field_size):
+        self.field_size = field_size  # размер поля
         self.field = field
-        self.cur_state = 0
-        self.cur_ship_index = 0
-        self.array_of_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
-        self.last_cell = [0, 0]
+        self.cur_state = 0  # 0 - выставление первой палубы, 1 - выбор направления
+        self.cur_ship_index = 0  # размер текущего выставляемого корабля
+        self.array_of_ships = None  # набор всех кораблей для данного размера поля
+        self.count_array_of_ships()
+        self.last_cell = [0, 0]  # последняя выбранная ячейка
+
+    # Этот метод из интерфейса
+    def count_array_of_ships(self):
+        if self.field_size == 10:
+            self.array_of_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
+        elif self.field_size == 15:
+            self.array_of_ships = [5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1]
+        elif self.field_size == 20:
+            self.array_of_ships = [6, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1]
 
     def get_cell(self, i, j):
         return self.field.get_cell(i, j)
@@ -47,12 +57,20 @@ class placementOfShips:
                 else:
                     # показ возможных направлений для текущего корабля
                     self.show_free_directions(i, j, self.array_of_ships[self.cur_ship_index])
+            else:
+                return
 
         # выставляются остальные палубы корабля в зависимости от выбранного направления
         elif self.cur_state == 1:
-            self.remove_question_marks()
             k = self.array_of_ships[self.cur_ship_index]
+            # TODO: вставить проверку на то, что игрок выбрал из правильных направлений
             direction = self.choose_direction(i, j)
+
+            # TODO: надо придумать, как уведомлять игорка о том, что он выбрал неправильное направление
+            if not self.checking_the_correct_direction(i, j):
+                return
+            self.remove_question_marks()
+
             if direction == "up":
                 for m in range(1, k):
                     self.set_cell(self.last_cell[0] - m, j, "3")
@@ -77,6 +95,10 @@ class placementOfShips:
                 self.cur_state = 0
                 self.fence_off_ship("left")
                 self.cur_ship_index += 1
+
+    # проверка на то, что игрок выбрал правильное направление для выставления корабля
+    def checking_the_correct_direction(self, i, j):
+        return self.get_cell(i, j) == "?"
 
     # понимание, какое напрвление выбрал игрок
     def choose_direction(self, i, j):
