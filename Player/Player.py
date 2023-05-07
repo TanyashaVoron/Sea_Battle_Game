@@ -4,68 +4,66 @@ from Field.PlayingField import playingField
 
 
 class Player:
-    def __init__(self, field_size):
-        self.field_size = field_size
+    def __init__(self, field_size, placement_ships):
+        self.field_size = int(field_size)
         self.field_attack = playingField(field_size)
         self.field_pattern = playingField(field_size)
-        self.count_cell = None
-        self.calculate_count_cell()
-        self.placementOfShips = placementOfAngularShips(self.field_pattern, self.field_size)
+        self.count_cell = self.__calculate_count_cell__()
+        if placement_ships == 0:
+            self.placement_of_ships = placementOfStraightShips(self.field_pattern, self.field_size)
+        else:
+            self.placement_of_ships = placementOfAngularShips(self.field_pattern, self.field_size)
 
-    def calculate_count_cell(self):
-        if self.field_size == 10:
-            self.count_cell = 20
-        elif self.field_size == 15:
-            self.count_cell = 35
-        elif self.field_size == 20:
-            self.count_cell = 56
+    def __calculate_count_cell__(self):
+        count_cell = {10: 20, 15: 35, 20: 56}
+        return count_cell[self.field_size]
 
     # поиск палуб кораблей вокруг
-    def __search_around(self, x, y):
+    def __search_around__(self, x, y):
         ships_around = []
 
-        def deck_check(_x, _y):
-            if 11 > _x > 0 and 11 > _y > 0 and self.field_pattern.get_cell(_x, _y) == '3':
-                ships_around.append([_x + 1, _y])
+        def __deck_check__(_x, _y):
+            if self.field_size >= _x > 0 and self.field_size >= _y > 0 and self.field_pattern.get_cell(_x, _y) == '3':
+                ships_around.append([_x, _y])  #
 
-        deck_check(x + 1, y)
-        deck_check(x - 1, y)
-        deck_check(x, y + 1)
-        deck_check(x, y - 1)
-        deck_check(x + 1, y + 1)
-        deck_check(x + 1, y - 1)
-        deck_check(x - 1, y + 1)
-        deck_check(x - 1, y - 1)
+        __deck_check__(x + 1, y)
+        __deck_check__(x - 1, y)
+        __deck_check__(x, y + 1)
+        __deck_check__(x, y - 1)
+        __deck_check__(x + 1, y + 1)
+        __deck_check__(x + 1, y - 1)
+        __deck_check__(x - 1, y + 1)
+        __deck_check__(x - 1, y - 1)
 
         return ships_around
 
     # удаление из игры полей вокруг коробля
-    def __removing_dead_ship(self, ship):
-        def removing_deck(_x, _y):
-            if 11 > _x > 0 and 11 > _y > 0 and [_x, _y] not in ship:
+    def __removing_dead_ship__(self, ship):
+        def __removing_deck__(_x, _y):
+            if self.field_size >= _x > 0 and self.field_size >= _y > 0 and [_x, _y] not in ship:
                 self.field_attack.set_cell(_x, _y, '2')
 
         for deck in ship:
             x = deck[0]
             y = deck[1]
-            removing_deck(x + 1, y)
-            removing_deck(x - 1, y)
-            removing_deck(x, y + 1)
-            removing_deck(x, y - 1)
-            removing_deck(x + 1, y + 1)
-            removing_deck(x + 1, y - 1)
-            removing_deck(x - 1, y + 1)
-            removing_deck(x - 1, y - 1)
+            __removing_deck__(x + 1, y)
+            __removing_deck__(x - 1, y)
+            __removing_deck__(x, y + 1)
+            __removing_deck__(x, y - 1)
+            __removing_deck__(x + 1, y + 1)
+            __removing_deck__(x + 1, y - 1)
+            __removing_deck__(x - 1, y + 1)
+            __removing_deck__(x - 1, y - 1)
 
     # поиск целого корабля по одной палубе
-    def __ship_search(self, x, y):
+    def __ship_search__(self, x, y):
         ship = [[x, y]]
-        unseen = self.__search_around(x, y)
+        unseen = self.__search_around__(x, y)
 
         while unseen:
             current = unseen.pop()
             ship.append(current)
-            neighbors = self.__search_around(current[0], current[1])
+            neighbors = self.__search_around__(current[0], current[1])
             for i in neighbors:
                 if i not in ship:
                     unseen.append(i)
@@ -73,16 +71,16 @@ class Player:
         return ship
 
     # проверка на то, что корабль выбит целиком
-    def __checking_ship_killed(self, x, y):
-        ship = self.__ship_search(x, y)
-
+    def __checking_ship_killed__(self, x, y):
+        ship = self.__ship_search__(x, y)
+        print(x, y, ship)
         if len(ship) != 1:
             for deck in ship:
                 if self.field_attack.get_cell(deck[0], deck[1]) != '1':
                     self.field_attack.set_cell(x, y, '1')
                     return
 
-        self.__removing_dead_ship(ship)
+        self.__removing_dead_ship__(ship)
 
     # основной метод: сделать ход
     def do_step(self, x, y):
@@ -90,23 +88,22 @@ class Player:
             if self.field_pattern.get_cell(x, y) == '3':
                 self.field_attack.set_cell(x, y, '1')
                 self.count_cell -= 1
-                self.__checking_ship_killed(x, y)
+                self.__checking_ship_killed__(x, y)
                 return 1
 
             self.field_attack.set_cell(x, y, '2')
             return -1
 
         else:
-            return 'ошибка ввода'  # думаю, что потом эта проверка не понадобится (мы просто оставим кликабельными
-            # только доступные клетки
+            return 0
 
     def end_of_placement(self):
-        if self.placementOfShips.end_of_placement():
+        if self.placement_of_ships.end_of_placement():
             return True
         return False
 
-    def put_ship(self, i, j):
-        self.placementOfShips.put_ship(i, j)
+    def put_ship(self, x, y):
+        self.placement_of_ships.put_ship(x, y)
 
     def show_field_pattern(self):
         return self.field_pattern

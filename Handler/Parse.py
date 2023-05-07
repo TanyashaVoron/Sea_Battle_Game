@@ -5,6 +5,8 @@ class Parse:
 
     def parse(self, s, n):
         x = y = 0
+        if len(s) == 1 or len(s) > 3:
+            return 0, 0
 
         if len(s) == 2:
             x = s[0]
@@ -14,7 +16,7 @@ class Parse:
             x = s[0:2]
             y = s[2]
 
-        if 0 < int(x) <= n and y in self.arr_y and self.arr_y.index(y) + 1 <= n:
+        if str(x).isdigit() and x not in self.arr_y and 0 < int(x) <= n and y in self.arr_y and self.arr_y.index(y) + 1 <= n:
             return int(x), self.arr_y.index(y) + 1
 
         return 0, 0

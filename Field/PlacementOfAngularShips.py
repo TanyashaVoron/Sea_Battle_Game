@@ -1,4 +1,7 @@
-class placementOfAngularShips:
+from Field.PlacementOfStraightShips import placementOfStraightShips
+
+
+class placementOfAngularShips(placementOfStraightShips):
     """
     cur_state:
     0 - wait next ship
@@ -8,31 +11,12 @@ class placementOfAngularShips:
     """
 
     def __init__(self, field, field_size):
+        super().__init__(field, field_size)
         self.field_size = field_size  # размер поля
         self.field = field
         self.cur_ship_index = 0  # положение текущего выставляемого корабля в массиве
         self.array_of_ships = None  # набор всех кораблей для данного размера поля
-        self.calculation_array_of_ships()
         self.number_of_exposed_cells = 0
-
-    def calculation_array_of_ships(self):
-        if self.field_size == 10:
-            self.array_of_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
-        elif self.field_size == 15:
-            self.array_of_ships = [5, 4, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1]
-        elif self.field_size == 20:
-            self.array_of_ships = [6, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1]
-
-    def get_cell(self, i, j):
-        return self.field.get_cell(i, j)
-
-    def set_cell(self, i, j, val):
-        self.field.set_cell(i, j, val)
-
-    def end_of_placement(self):
-        if self.cur_ship_index == len(self.array_of_ships):
-            return True
-        return False
 
     def put_ship(self, i, j):
         k = self.array_of_ships[self.cur_ship_index]
@@ -62,7 +46,7 @@ class placementOfAngularShips:
         return self.get_cell(i, j) == "?"
 
     # показ возможных направлений для постановки текущего корабля
-    def show_free_directions(self, i, j):
+    def show_free_directions(self, i, j, **kwargs):
         if self.check_free_direction(i, j, "up"):
             self.set_cell(i - 1, j, "?")
         if self.check_free_direction(i, j, "right"):
@@ -134,27 +118,9 @@ class placementOfAngularShips:
             except IndexError:
                 cur_idx += 1
 
-    # очищение поля от показа направлений для постановки предыдущего корабля
-    def remove_question_marks(self):
-        for i in range(1, self.field.n):
-            for j in range(1, self.field.n):
-                if self.get_cell(i, j) == "?":
-                    self.set_cell(i, j, "0")
-
-    # очищение поля от ограждающих отметок
-    def remove_exclamation_marks(self):
-        for i in range(1, self.field.n):
-            for j in range(1, self.field.n):
-                if self.get_cell(i, j) == "!":
-                    self.set_cell(i, j, "0")
-
     # очищение поля от временных плюсиков
     def remove_plus_marks(self):
         for i in range(1, self.field.n):
             for j in range(1, self.field.n):
                 if self.get_cell(i, j) == "+":
                     self.set_cell(i, j, "3")
-
-
-if __name__ == '__main__':
-    pass

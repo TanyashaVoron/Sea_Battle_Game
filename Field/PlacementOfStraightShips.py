@@ -225,7 +225,3 @@ class placementOfStraightShips:
             for j in range(1, self.field.n):
                 if self.get_cell(i, j) == "!":
                     self.set_cell(i, j, "0")
-
-
-if __name__ == '__main__':
-    pass
