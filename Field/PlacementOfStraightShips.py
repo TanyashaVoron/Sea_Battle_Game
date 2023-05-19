@@ -12,7 +12,7 @@ class placementOfStraightShips:
         self.field = field
         self.cur_state = 0  # 0 - выставление первой палубы, 1 - выбор направления
         self.cur_ship_index = 0  # размер текущего выставляемого корабля
-        self.array_of_ships = None  # набор всех кораблей для данного размера поля
+  # набор всех кораблей для данного размера поля
         self.count_array_of_ships()
         self.last_cell = [0, 0]  # последняя выбранная ячейка
 

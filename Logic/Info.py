@@ -1,4 +1,16 @@
+import sys
+
 from Handler.InputOutput import Input_Output
+from PySide6.QtWidgets import (QApplication, QMainWindow)
+
+from gui.questions.QueAvtoWindow import AvtoWindow
+from gui.questions.QueDifficultlyWindow import DifficultlyWindow
+from gui.questions.QueCountPlayersWindow import CountPlayersWindow
+from gui.questions.QueFillingWindow import FillingWindow
+from gui.questions.QueShipsWindow import ShipsWindow
+from gui.questions.QueTimeWindow import TimeWindow
+from gui.questions.StartWindow import StartWindow
+from gui.questions.QueFieldSizeWindow import FieldSizeWindow
 
 
 # класс, в котором хранится вся основная информация по игре, далее он него наследуется все
@@ -12,10 +24,14 @@ class Info:
         self.filling = 0  # 1 - расстановка ботом | 2 - расстановка руками
         self.time = False  # 0 - игра без времени | 1 - игра на время
 
-        self.input_output = Input_Output()
-        self.__set_info__()
+        # self.input_output = Input_Output()
+        # self.__set_info__()
+        #self.__start_window__()
 
-    def __set_info__(self):
+
+
+
+    '''def __set_info__(self):
         if not self.__quick_start__():
             self.__field_size__()
             self.__ships__()
@@ -86,3 +102,4 @@ class Info:
             self.input_output.output_exe()
             self.time = self.input_output.input()
         self.time = time.index(self.time) % 2
+'''

@@ -13,7 +13,9 @@ class Player:
             self.placement_of_ships = placementOfStraightShips(self.field_pattern, self.field_size)
         else:
             self.placement_of_ships = placementOfAngularShips(self.field_pattern, self.field_size)
-
+    def set_field_size(self, size):
+        self.field_size = size
+        self.__calculate_count_cell__()
     def __calculate_count_cell__(self):
         count_cell = {10: 20, 15: 35, 20: 56}
         return count_cell[self.field_size]
