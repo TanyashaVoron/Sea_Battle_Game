@@ -8,15 +8,15 @@ class placementOfStraightShips:
     """
 
     def __init__(self, field, field_size):
+        self.array_of_ships = None
         self.field_size = field_size  # размер поля
         self.field = field
         self.cur_state = 0  # 0 - выставление первой палубы, 1 - выбор направления
         self.cur_ship_index = 0  # размер текущего выставляемого корабля
-  # набор всех кораблей для данного размера поля
+        # набор всех кораблей для данного размера поля
         self.count_array_of_ships()
         self.last_cell = [0, 0]  # последняя выбранная ячейка
 
-    # Этот метод из интерфейса
     def count_array_of_ships(self):
         if self.field_size == 10:
             self.array_of_ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
@@ -96,12 +96,16 @@ class placementOfStraightShips:
                 self.fence_off_ship("left")
                 self.cur_ship_index += 1
 
-    # проверка на то, что игрок выбрал правильное направление для выставления корабля
     def checking_the_correct_direction(self, i, j):
+        """
+        проверка на то, что игрок выбрал правильное направление для выставления корабля
+        """
         return self.get_cell(i, j) == "?"
 
-    # понимание, какое напрвление выбрал игрок
     def choose_direction(self, i, j):
+        """
+        понимание, какое напрвление выбрал игрок
+        """
         difference = [self.last_cell[0] - i, self.last_cell[1] - j]
         if difference[0] > 0 and difference[1] == 0:
             return "up"
@@ -112,8 +116,10 @@ class placementOfStraightShips:
         if difference[0] == 0 and difference[1] > 0:
             return "left"
 
-    # показ возможных направлений для постановки текущего корабля
     def show_free_directions(self, i, j, k):
+        """
+        показ возможных направлений для постановки текущего корабля
+        """
         if self.check_free_direction(i, j, "up"):
             for m in range(1, k):
                 self.set_cell(i - m, j, "?")
@@ -127,8 +133,10 @@ class placementOfStraightShips:
             for m in range(1, k):
                 self.set_cell(i, j - m, "?")
 
-    # проверка направлений на то, что там нет других кораблей, и там не конец поля
     def check_free_direction(self, i, j, dir):
+        """
+        проверка направлений на то, что там нет других кораблей, и там не конец поля
+        """
         k = self.array_of_ships[self.cur_ship_index]
         initial_value_i = i
         initial_value_j = j
@@ -172,8 +180,10 @@ class placementOfStraightShips:
 
         return True
 
-    # ограждение корабля во избежании того, чтобы последующие стояли рядом
     def fence_off_ship(self, dir):
+        """
+         ограждение корабля во избежании того, чтобы последующие стояли рядом
+        """
         k = self.array_of_ships[self.cur_ship_index]
         i = self.last_cell[0]
         j = self.last_cell[1]
@@ -195,8 +205,10 @@ class placementOfStraightShips:
 
             self.fence_off_cell(i, j)
 
-    # ограждение одной клетки
     def fence_off_cell(self, i, j):
+        """
+        ограждение одной клетки
+        """
         array_of_surrounding_cells = [[i - 1, j], [i - 1, j + 1], [i, j + 1], [i + 1, j + 1],
                                       [i + 1, j], [i + 1, j - 1], [i, j - 1], [i - 1, j - 1]]
 
@@ -212,15 +224,19 @@ class placementOfStraightShips:
             except IndexError:
                 cur_idx += 1
 
-    # очищение поля от показа направлений для постановки предыдущего корабля
     def remove_question_marks(self):
+        """
+        очищение поля от показа направлений для постановки предыдущего корабля
+        """
         for i in range(1, self.field.n):
             for j in range(1, self.field.n):
                 if self.get_cell(i, j) == "?":
                     self.set_cell(i, j, "0")
 
-    # очищение поля от ограждающих отметок
     def remove_exclamation_marks(self):
+        """
+        очищение поля от ограждающих отметок
+        """
         for i in range(1, self.field.n):
             for j in range(1, self.field.n):
                 if self.get_cell(i, j) == "!":

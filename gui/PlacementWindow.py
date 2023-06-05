@@ -1,5 +1,5 @@
-from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect, Qt)
+from PySide6.QtWidgets import (QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit)
 
 from gui.MyCopy import NewCopy
 
@@ -9,7 +9,7 @@ class PlacementWindow(object):
         self.my_copy = NewCopy()
         self.my_copy.name_window = "SiatingWindow"
 
-    def ui(self, window, field, text="введите координаты\n(без пробелов цифра, буква)\nнажмите кнопку ВВОД"):
+    def ui(self, window, field, size, text="введите координаты\n(без пробелов цифра, буква)\nнажмите кнопку ВВОД"):
         if not window.objectName():
             window.setObjectName("SiatingWindow")
         window.resize(530, 850)
@@ -27,35 +27,23 @@ class PlacementWindow(object):
         self.vertical_layout.setObjectName("verticalLayout")
         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.text = QLabel(self.layout_widget)
-        self.my_copy.new_lable(self.text, text, a=500, b=150)
-        self.vertical_layout.addWidget(self.text)
+        self.text_placement = QLabel(self.layout_widget)
+        self.my_copy.new_lable(self.text_placement, text, a=500, b=150)
+        self.text_placement.setAlignment(Qt.AlignCenter)
+        self.vertical_layout.addWidget(self.text_placement)
 
-        self.field = QLabel(self.layout_widget)
-        self.my_copy.new_lable(self.field, field, a=500, b=500)
-        self.vertical_layout.addWidget(self.field)
+        self.field_placement = QLabel(self.layout_widget)
+        self.my_copy.new_lable(self.field_placement, field, a=500, b=500, size=size)
+        self.vertical_layout.addWidget(self.field_placement)
 
+        self.text_enter_placement = QLineEdit(self.layout_widget)
+        self.text_enter_placement.setObjectName("text_enter_placement")
+        self.vertical_layout.addWidget(self.text_enter_placement)
 
-        self.tex_enter = QLineEdit(self.layout_widget)
-        self.tex_enter.setObjectName("tex_enter")
-        self.vertical_layout.addWidget(self.tex_enter)
-
-        self.button_enter = QPushButton(self.layout_widget)
-        self.my_copy.new_button(self.button_enter, "ВВОД")
-        self.vertical_layout.addWidget(self.button_enter)
+        self.button_enter_placement = QPushButton(self.layout_widget)
+        self.my_copy.new_button(self.button_enter_placement, "ВВОД")
+        self.vertical_layout.addWidget(self.button_enter_placement)
 
         window.setCentralWidget(self.central_widget)
         window.setWindowTitle(QCoreApplication.translate("SiatingWindow", "Sea buttle game", None))
         QMetaObject.connectSlotsByName(window)
-
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = PlacementWindow()
-    ui.ui(MainWindow, 'asad')
-    MainWindow.show()
-    sys.exit(app.exec())

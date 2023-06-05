@@ -1,5 +1,5 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel)
+from PySide6.QtWidgets import (QPushButton, QVBoxLayout, QWidget, QLabel)
 
 from gui.MyCopy import NewCopy
 
@@ -31,24 +31,13 @@ class CountPlayersWindow(object):
         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
 
         self.button_game_with_friend = QPushButton(self.layout_widget)
-        self.my_copy.new_button(self.button_game_with_friend, "1")
+        self.my_copy.new_button(self.button_game_with_friend, "2")
         self.vertical_layout.addWidget(self.button_game_with_friend)
 
         self.button_game_with_bot = QPushButton(self.layout_widget)
-        self.my_copy.new_button(self.button_game_with_bot, "2")
+        self.my_copy.new_button(self.button_game_with_bot, "1")
         self.vertical_layout.addWidget(self.button_game_with_bot)
 
         window.setCentralWidget(self.central_widget)
         window.setWindowTitle(QCoreApplication.translate("CountPlayersWindow", "Sea buttle game", None))
         QMetaObject.connectSlotsByName(window)
-
-
-'''if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = CountPlayersWindow()
-    ui.ui(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())'''

@@ -1,5 +1,5 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel)
+from PySide6.QtWidgets import (QPushButton, QVBoxLayout, QWidget, QLabel)
 
 from gui.MyCopy import NewCopy
 
@@ -41,15 +41,3 @@ class FillingWindow(object):
         window.setCentralWidget(self.central_widget)
         window.setWindowTitle(QCoreApplication.translate("FillingWindow", "Sea buttle game", None))
         QMetaObject.connectSlotsByName(window)
-
-
-'''if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = FillingWindow()
-    ui.ui(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())
-'''

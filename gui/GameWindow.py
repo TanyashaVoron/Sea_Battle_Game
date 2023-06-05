@@ -1,5 +1,6 @@
-from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit)
+from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect, QTimer, Qt)
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QHBoxLayout)
 
 from gui.MyCopy import NewCopy
 
@@ -9,7 +10,8 @@ class GameWindow(object):
         self.my_copy = NewCopy()
         self.my_copy.name_window = "GameWindow"
 
-    def ui(self, window, text, field):
+    def ui(self, window, text, field, size, timer=False):
+        self.window = window
         if not window.objectName():
             window.setObjectName("GameWindow")
         window.resize(1070, 900)
@@ -27,33 +29,45 @@ class GameWindow(object):
         self.vertical_layout.setObjectName("verticalLayout")
         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.text = QLabel(self.layout_widget)
-        self.my_copy.new_lable(self.text, text, a=500, b=150)
-        self.vertical_layout.addWidget(self.text)
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
 
-        self.field = QLabel(self.layout_widget)
-        self.my_copy.new_lable(self.field, field, a=500, b=500)
-        self.vertical_layout.addWidget(self.field)
+        self.text_game = QLabel(self.layout_widget)
+        self.my_copy.new_lable(self.text_game, text, a=500, b=150)
+        self.text_game.setAlignment(Qt.AlignCenter)
+        self.horizontalLayout.addWidget(self.text_game)
 
-        self.tex_enter = QLineEdit(self.layout_widget)
-        self.tex_enter.setObjectName("tex_enter")
-        self.vertical_layout.addWidget(self.tex_enter)
+        if timer:
+            self.timer_label = QLabel(self.layout_widget)
+            self.timer_label.setMaximumSize(90, 50)
+            self.font = QFont()
+            self.font.setFamilies([u"Arial"])
+            self.font.setPointSize(35)
+            self.font.setBold(True)
+            self.timer_label.setFont(self.font)
+            self.timer = QTimer()
+            self.timer.start(1000)  # 1 second
+            self.horizontalLayout.addWidget(self.timer_label)
+        else:
+            self.button_exit_game = QPushButton(self.layout_widget)
+            self.my_copy.new_button(self.button_exit_game, "ВЫХОД")
+            self.button_exit_game.setMaximumSize(150, 50)
+            self.horizontalLayout.addWidget(self.button_exit_game)
 
-        self.button_enter = QPushButton(self.layout_widget)
-        self.my_copy.new_button(self.button_enter, "ВВОД")
-        self.vertical_layout.addWidget(self.button_enter)
+        self.vertical_layout.addLayout(self.horizontalLayout)
+
+        self.field_game = QLabel(self.layout_widget)
+        self.my_copy.new_lable(self.field_game, field, a=500, b=500, size=size)
+        self.vertical_layout.addWidget(self.field_game)
+
+        self.text_enter_game = QLineEdit(self.layout_widget)
+        self.text_enter_game.setObjectName("text_enter_game")
+        self.vertical_layout.addWidget(self.text_enter_game)
+
+        self.button_enter_game = QPushButton(self.layout_widget)
+        self.my_copy.new_button(self.button_enter_game, "ВВОД")
+        self.vertical_layout.addWidget(self.button_enter_game)
 
         window.setCentralWidget(self.central_widget)
         window.setWindowTitle(QCoreApplication.translate("GameWindow", "Sea buttle game", None))
         QMetaObject.connectSlotsByName(window)
-
-
-'''if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = GameWindow()
-    ui.ui(MainWindow, 1, "введите координаты\n(без пробелов цифра, буква)\nнажмите кнопку ВВОД")
-    MainWindow.show()
-    sys.exit(app.exec())'''

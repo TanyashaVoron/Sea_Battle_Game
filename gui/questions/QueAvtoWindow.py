@@ -1,5 +1,5 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QRect)
-from PySide6.QtWidgets import (QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel)
+from PySide6.QtWidgets import (QPushButton, QVBoxLayout, QWidget, QLabel)
 
 from gui.MyCopy import NewCopy
 
@@ -19,7 +19,6 @@ class AvtoWindow(object):
         self.central_widget = QWidget(window)
         self.central_widget.setObjectName("centralwidget")
 
-
         self.layout_widget = QWidget(self.central_widget)
         self.layout_widget.setObjectName("layoutWidget")
         self.layout_widget.setGeometry(QRect(10, 10, 700, 400))
@@ -29,7 +28,8 @@ class AvtoWindow(object):
         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
 
         self.que = QLabel(self.central_widget)
-        self.my_copy.new_lable(self.que, 'настройки по умолчанию:\n размер поля 10х10\n прямые корабли\n игра с ботом\n легкий уровень сложности\n автоматическая расстановка кораблей\n игра без времени')
+        self.my_copy.new_lable(self.que,
+                               'настройки по умолчанию:\n игра на время\n размер поля 10х10\n прямые корабли\n игра с ботом\n легкий уровень сложности\n автоматическая расстановка кораблей\n игра без времени')
         self.vertical_layout.addWidget(self.que)
 
         self.button_avto_yes = QPushButton(self.layout_widget)
@@ -43,14 +43,3 @@ class AvtoWindow(object):
         window.setCentralWidget(self.central_widget)
         window.setWindowTitle(QCoreApplication.translate("AvtoWindow", "Sea buttle game", None))
         QMetaObject.connectSlotsByName(window)
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QApplication(sys.argv)
-    MainWindow = QMainWindow()
-    ui = AvtoWindow()
-    ui.ui(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())
