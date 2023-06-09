@@ -63,10 +63,8 @@ class placementOfStraightShips:
         # выставляются остальные палубы корабля в зависимости от выбранного направления
         elif self.cur_state == 1:
             k = self.array_of_ships[self.cur_ship_index]
-            # TODO: вставить проверку на то, что игрок выбрал из правильных направлений
             direction = self.choose_direction(i, j)
 
-            # TODO: надо придумать, как уведомлять игорка о том, что он выбрал неправильное направление
             if not self.checking_the_correct_direction(i, j):
                 return
             self.remove_question_marks()

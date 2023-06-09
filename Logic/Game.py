@@ -428,8 +428,8 @@ class Game(Info):
 
                 step = self.player1.do_step(x, y)
                 if step != 0:
-                    self.player1.last_move_x, self.player1.last_move_y = x, y
                     self.is_move *= step
+                    self.player1.last_move_x, self.player1.last_move_y = x, y
 
                 self.window.field_game.setText(self.output.fields(self.player1.show_field_attack().field,
                                                                   self.player2.show_field_attack().field,

@@ -36,6 +36,8 @@ class Bot(Player):
                                                                                                            _y) == '3':
                     ships_around.append([_x, _y])
 
-        if not ships_around:
-            return self.bot_generation_move()
-        return f'{ships_around[0][0]}{self.arr_y[ships_around[0][1] - 1]}'
+        for ship in ships_around:
+            if self.field_attack.field[ship[0]][ship[1]] == '0':
+                return f'{ship[0]}{self.arr_y[ship[1] - 1]}'
+
+        return self.bot_generation_move()
