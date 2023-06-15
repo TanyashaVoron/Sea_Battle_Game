@@ -9,7 +9,6 @@ from Logic.Info import Info
 from Player.BotPlayer import Bot
 
 from gui.questions.QueSaveWindow import SaveWindow
-from gui.StartWindow import StartWindow
 from gui.questions.QueAvtoWindow import AvtoWindow
 from gui.questions.QueFieldSizeWindow import FieldSizeWindow
 from gui.questions.QueShipsWindow import ShipsWindow
@@ -19,6 +18,7 @@ from gui.questions.QueFillingWindow import FillingWindow
 from gui.PlacementWindow import PlacementWindow
 from gui.GameWindow import GameWindow
 from gui.WinerWindow import WinnerWindow
+from gui.StartWindow import StartWindow
 
 
 class Game(Info):
